@@ -74,9 +74,9 @@ button {
     display: flex;
 }
 
-/* Вкладки */
+/* Вкладки: шире (боковые отступы 14px) */
 .tabs-wrap {
-    padding: 4px 32px 8px;
+    padding: 4px 14px 8px;
 }
 
 .tabs {
@@ -154,12 +154,12 @@ button {
     height: 48px;
 }
 
-/* Нижний блок с кнопками */
+/* Нижний блок с кнопками (размеры как раньше) */
 .footer {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+    padding: 16px 14px calc(16px + env(safe-area-inset-bottom));
     border-top: 3px solid #f2f2f2;
 }
 
@@ -169,22 +169,22 @@ button {
     justify-content: center;
     gap: 8px;
     width: 100%;
-    padding: 10px;
+    padding: 14px;
     border-radius: 8px;
 }
 
-/* Текст 4: жирнее */
+/* Текст 4: без жирности */
 .btn-primary {
     background: #2b7bd6;
     color: #fff;
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 400;
 }
 
-/* Текст 5: меньше и цвета обводки */
+/* Текст 5: цвет как у синего прямоугольника Текста 4 */
 .btn-outline {
     background: #fff;
     border: 2px solid #7ecbf0;
-    color: #7ecbf0;
+    color: #2b7bd6;
     font-size: 17px;
 }
