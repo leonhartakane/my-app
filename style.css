@@ -61,7 +61,7 @@ button {
 
 .header h1 {
     margin: 0;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
 }
 
@@ -74,7 +74,7 @@ button {
     display: flex;
 }
 
-/* Вкладки (тоньше и с меньшим текстом) */
+/* Вкладки */
 .tabs-wrap {
     padding: 4px 32px 8px;
 }
@@ -82,7 +82,7 @@ button {
 .tabs {
     display: flex;
     padding: 2px;
-    background: #d9d9d9;
+    background: #ebebeb;
     border-radius: 10px;
 }
 
@@ -159,7 +159,7 @@ button {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 16px 14px calc(16px + env(safe-area-inset-bottom));
+    padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
     border-top: 3px solid #f2f2f2;
 }
 
@@ -169,17 +169,22 @@ button {
     justify-content: center;
     gap: 8px;
     width: 100%;
-    padding: 14px;
-    font-size: 20px;
+    padding: 10px;
     border-radius: 8px;
 }
 
+/* Текст 4: жирнее */
 .btn-primary {
     background: #2b7bd6;
     color: #fff;
+    font-size: 20px;
+    font-weight: 700;
 }
 
+/* Текст 5: меньше и цвета обводки */
 .btn-outline {
     background: #fff;
     border: 2px solid #7ecbf0;
+    color: #7ecbf0;
+    font-size: 17px;
 }

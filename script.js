@@ -36,12 +36,14 @@ photoInput.addEventListener("change", function (e) {
     photo.src = URL.createObjectURL(file);
     photoAdd.hidden = true;
     photoFrame.hidden = false;
-    resetZoom();
+    resetZoom(false);
 });
 
 // ---------- Приближение, отдаление и перемещение фото ----------
-const MIN_SCALE = 0.3;
-const MAX_SCALE = 6;
+const MIN_SCALE = 0.3;   // как сильно можно отдалить пальцами
+const MAX_SCALE = 6;     // как сильно можно приблизить
+const EDGE = 30;         // на сколько фото может выйти за край (меньше число = строже)
+const OVERSHOOT = 100;   // насколько можно «перетянуть» фото пальцем до отпускания
 
 let scale = 1;
 let x = 0;
@@ -61,25 +63,51 @@ function distance(t) {
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-function applyZoom() {
-    // фото можно двигать далеко, но не терять совсем
+// Допустимое смещение фото при текущем размере
+function limitX() {
     const W = photoFrame.clientWidth;
+    return Math.max(0, (W * scale - W) / 2) + EDGE;
+}
+
+function limitY() {
     const H = photoFrame.clientHeight;
-    const maxX = Math.max(0, (W + W * scale) / 2 - 80);
-    const maxY = Math.max(0, (H + H * scale) / 2 - 80);
-    x = Math.max(-maxX, Math.min(maxX, x));
-    y = Math.max(-maxY, Math.min(maxY, y));
+    return Math.max(0, (H * scale - H) / 2) + EDGE;
+}
+
+function clamp(value, limit) {
+    return Math.max(-limit, Math.min(limit, value));
+}
+
+function render() {
     photo.style.transform = "translate(" + x + "px, " + y + "px) scale(" + scale + ")";
 }
 
-function resetZoom() {
+// Плавное возвращение: в центр и исходный размер, если отдалили,
+// или к допустимой границе, если вышли за край
+function settle() {
+    if (scale < 1) {
+        scale = 1;
+        x = 0;
+        y = 0;
+    } else {
+        x = clamp(x, limitX());
+        y = clamp(y, limitY());
+    }
+    photo.style.transition = "transform 0.25s ease";
+    render();
+}
+
+function resetZoom(animated) {
     scale = 1;
     x = 0;
     y = 0;
-    applyZoom();
+    photo.style.transition = animated ? "transform 0.25s ease" : "none";
+    render();
 }
 
 photoFrame.addEventListener("touchstart", function (e) {
+    photo.style.transition = "none";
+
     if (e.touches.length === 2) {
         startDist = distance(e.touches);
         startScale = scale;
@@ -104,26 +132,28 @@ photoFrame.addEventListener("touchmove", function (e) {
         const dx = e.touches[0].clientX - startX;
         const dy = e.touches[0].clientY - startY;
         if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
-        x = startTx + dx;
-        y = startTy + dy;
+        x = clamp(startTx + dx, limitX() + OVERSHOOT);
+        y = clamp(startTy + dy, limitY() + OVERSHOOT);
     }
-    applyZoom();
+    render();
 }, { passive: false });
 
 photoFrame.addEventListener("touchend", function (e) {
-    // двойное касание возвращает фото к исходному виду
-    if (e.touches.length === 0 && !moved) {
-        const now = Date.now();
-        if (now - lastTap < 300) {
-            resetZoom();
-            lastTap = 0;
-        } else {
+    if (e.touches.length === 0) {
+        // двойное касание: исходный вид
+        if (!moved) {
+            const now = Date.now();
+            if (now - lastTap < 300) {
+                resetZoom(true);
+                lastTap = 0;
+                return;
+            }
             lastTap = now;
         }
-    }
-
-    // после отпускания одного из двух пальцев продолжаем с оставшимся
-    if (e.touches.length === 1) {
+        // все пальцы отпущены: возвращаем фото на место
+        settle();
+    } else if (e.touches.length === 1) {
+        // отпустили один из двух пальцев: продолжаем с оставшимся
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         startTx = x;
