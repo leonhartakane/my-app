@@ -14,7 +14,8 @@ body {
 }
 
 button,
-.photo-btn {
+.photo-btn,
+.link-btn {
     display: block;
     width: 100%;
     padding: 14px;
@@ -22,9 +23,12 @@ button,
     text-align: center;
 }
 
-.photo-btn {
+.photo-btn,
+.link-btn {
     margin-top: 16px;
     background: #efefef;
+    color: inherit;
+    text-decoration: none;
     border: 1px solid #767676;
     border-radius: 6px;
     cursor: pointer;

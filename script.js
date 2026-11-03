@@ -10,5 +10,7 @@ document.getElementById("btn").addEventListener("click", function () {
 document.getElementById("photoInput").addEventListener("change", function (e) {
     const file = e.target.files[0];
     if (!file) return;
+
     document.getElementById("photo").src = URL.createObjectURL(file);
+    document.getElementById("photoBtn").style.display = "none";
 });
