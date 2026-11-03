@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Удостоверение личности</title>
-    <link rel="stylesheet" href="style.css?v=7">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Текст 1</title>
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 
 <body>
@@ -16,26 +16,57 @@
                     <polyline points="16,3 7,12 16,21" />
                 </svg>
             </button>
-            <h1>Удостоверение личности</h1>
+            <h1>Текст 1</h1>
         </header>
 
         <div class="tabs">
-            <button class="tab active" data-tab="1">Документ</button>
-            <button class="tab" data-tab="2">Реквизиты</button>
+            <button class="tab active">Текст 2</button>
+            <button class="tab">Текст 3</button>
         </div>
 
         <main class="content">
-            <div class="panel" id="panel1">Содержимое первой вкладки</div>
-            <div class="panel" id="panel2" hidden>Содержимое второй вкладки</div>
+
+            <!-- Первая вкладка: фото -->
+            <div class="panel" id="panel1">
+                <label for="photoInput" id="photoAdd" class="photo-add">
+                    <!-- Иконка камеры -->
+                    <svg class="icon big" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                        <circle cx="12" cy="13" r="3" />
+                    </svg>
+                    <span>Добавить фото</span>
+                </label>
+                <input type="file" id="photoInput" accept="image/*" hidden>
+
+                <div class="photo-frame" id="photoFrame" hidden>
+                    <img id="photo" alt="">
+                </div>
+            </div>
+
+            <!-- Вторая вкладка -->
+            <div class="panel" id="panel2" hidden></div>
+
         </main>
 
         <footer class="footer">
-            <button class="btn btn-primary">Предъявить документ</button>
-            <button class="btn btn-outline">Отправить документ</button>
+            <button class="btn btn-primary">
+                <!-- Иконка «галочка» -->
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Текст 4
+            </button>
+            <button class="btn btn-outline">
+                <!-- Иконка «звезда» -->
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                Текст 5
+            </button>
         </footer>
 
     </div>
 
-    <script src="script.js?v=7"></script>
+    <script src="script.js?v=8"></script>
 </body>
 </html>
