@@ -13,21 +13,32 @@ body {
     margin: 0 auto;
 }
 
-button {
+button,
+.photo-btn {
+    display: block;
     width: 100%;
     padding: 14px;
     font-size: 18px;
+    text-align: center;
 }
 
-input[type="file"] {
-    width: 100%;
+.photo-btn {
     margin-top: 16px;
-    font-size: 16px;
+    background: #efefef;
+    border: 1px solid #767676;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 img {
+    display: block;
     max-width: 100%;
     height: auto;
     margin-top: 16px;
     border-radius: 12px;
+}
+
+img[src=""],
+img:not([src]) {
+    display: none;
 }

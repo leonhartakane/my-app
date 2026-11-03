@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Моё приложение</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
@@ -14,10 +14,11 @@
         <p>Нажато раз: <span id="count">0</span></p>
         <button id="btn">Нажми меня</button>
 
-        <input type="file" id="photoInput" accept="image/*">
+        <label for="photoInput" class="photo-btn">Выбрать фото</label>
+        <input type="file" id="photoInput" accept="image/*" hidden>
         <img id="photo" alt="">
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>
