@@ -1,16 +1,20 @@
-// Счётчик
-let count = 0;
+// Переключение вкладок
+const tabs = document.querySelectorAll(".tab");
+const panels = [
+    document.getElementById("panel1"),
+    document.getElementById("panel2")
+];
 
-document.getElementById("btn").addEventListener("click", function () {
-    count = count + 1;
-    document.getElementById("count").textContent = count;
+tabs.forEach(function (tab, index) {
+    tab.addEventListener("click", function () {
+        tabs.forEach(function (t) { t.classList.remove("active"); });
+        tab.classList.add("active");
+
+        panels.forEach(function (p, i) { p.hidden = (i !== index); });
+    });
 });
 
-// Выбор фото
-document.getElementById("photoInput").addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    document.getElementById("photo").src = URL.createObjectURL(file);
-    document.getElementById("photoBtn").style.display = "none";
+// Стрелка «назад»
+document.getElementById("backBtn").addEventListener("click", function () {
+    history.back();
 });

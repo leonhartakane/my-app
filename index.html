@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Моё приложение</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <title>Текст</title>
+    <link rel="stylesheet" href="style.css?v=7">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Привет!</h1>
+    <div class="app">
 
-        <p>Нажато раз: <span id="count">0</span></p>
-        <button id="btn">Нажми меня</button>
+        <header class="header">
+            <button class="back" id="backBtn" aria-label="Назад">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="16,3 7,12 16,21" />
+                </svg>
+            </button>
+            <h1>Текст</h1>
+        </header>
 
-        <label for="photoInput" id="photoBtn" class="photo-btn">Выбрать фото</label>
-        <input type="file" id="photoInput" accept="image/*" hidden>
-        <img id="photo" alt="">
+        <div class="tabs">
+            <button class="tab active" data-tab="1">текст</button>
+            <button class="tab" data-tab="2">текст</button>
+        </div>
 
-        <a href="page2.html" class="link-btn">Перейти на вторую страницу</a>
+        <main class="content">
+            <div class="panel" id="panel1">Содержимое первой вкладки</div>
+            <div class="panel" id="panel2" hidden>Содержимое второй вкладки</div>
+        </main>
+
+        <footer class="footer">
+            <button class="btn btn-primary">текст</button>
+            <button class="btn btn-outline">текст</button>
+        </footer>
+
     </div>
 
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>
