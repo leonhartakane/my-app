@@ -10,6 +10,7 @@ html,
 body {
     margin: 0;
     height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -29,6 +30,7 @@ button {
 
 /* Каркас: шапка сверху, кнопки внизу, контент посередине */
 .app {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -36,11 +38,21 @@ button {
     max-width: 500px;
     margin: 0 auto;
     padding-top: env(safe-area-inset-top);
+    overflow: hidden;
+}
+
+/* Шапка, вкладки и кнопки лежат поверх фото и остаются на месте */
+.header,
+.tabs-wrap,
+.footer {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    flex-shrink: 0;
 }
 
 /* Шапка */
 .header {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,31 +74,35 @@ button {
     display: flex;
 }
 
-/* Вкладки */
+/* Вкладки (тоньше и с меньшим текстом) */
+.tabs-wrap {
+    padding: 4px 32px 8px;
+}
+
 .tabs {
     display: flex;
-    margin: 8px 32px 0;
-    padding: 3px;
+    padding: 2px;
     background: #d9d9d9;
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .tab {
     flex: 1;
-    padding: 8px 0;
-    font-size: 20px;
-    border-radius: 10px;
+    padding: 5px 0;
+    font-size: 16px;
+    border-radius: 8px;
 }
 
 .tab.active {
     background: #fff;
 }
 
-/* Область содержимого */
+/* Область содержимого: фото может выходить за её края */
 .content {
+    position: relative;
+    z-index: 1;
     flex: 1;
     min-height: 0;
-    overflow: hidden;
     padding: 16px;
 }
 
@@ -109,12 +125,9 @@ button {
     cursor: pointer;
 }
 
-/* Рамка с фото: тут работает приближение */
+/* Фото без рамки */
 .photo-frame {
     height: 100%;
-    overflow: hidden;
-    border-radius: 16px;
-    background: #f2f2f2;
     touch-action: none;
 }
 

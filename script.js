@@ -34,12 +34,15 @@ photoInput.addEventListener("change", function (e) {
     if (!file) return;
 
     photo.src = URL.createObjectURL(file);
-    photoAdd.hidden = true;     // убираем кнопку добавления
-    photoFrame.hidden = false;  // показываем фото
+    photoAdd.hidden = true;
+    photoFrame.hidden = false;
     resetZoom();
 });
 
-// ---------- Приближение только фото ----------
+// ---------- Приближение, отдаление и перемещение фото ----------
+const MIN_SCALE = 0.3;
+const MAX_SCALE = 6;
+
 let scale = 1;
 let x = 0;
 let y = 0;
@@ -49,6 +52,8 @@ let startX = 0;
 let startY = 0;
 let startTx = 0;
 let startTy = 0;
+let moved = false;
+let lastTap = 0;
 
 function distance(t) {
     const dx = t[0].clientX - t[1].clientX;
@@ -57,9 +62,11 @@ function distance(t) {
 }
 
 function applyZoom() {
-    // не даём утащить фото за края рамки
-    const maxX = photoFrame.clientWidth * (scale - 1) / 2;
-    const maxY = photoFrame.clientHeight * (scale - 1) / 2;
+    // фото можно двигать далеко, но не терять совсем
+    const W = photoFrame.clientWidth;
+    const H = photoFrame.clientHeight;
+    const maxX = Math.max(0, (W + W * scale) / 2 - 80);
+    const maxY = Math.max(0, (H + H * scale) / 2 - 80);
     x = Math.max(-maxX, Math.min(maxX, x));
     y = Math.max(-maxY, Math.min(maxY, y));
     photo.style.transform = "translate(" + x + "px, " + y + "px) scale(" + scale + ")";
@@ -76,11 +83,13 @@ photoFrame.addEventListener("touchstart", function (e) {
     if (e.touches.length === 2) {
         startDist = distance(e.touches);
         startScale = scale;
+        moved = true;
     } else if (e.touches.length === 1) {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         startTx = x;
         startTy = y;
+        moved = false;
     }
 }, { passive: false });
 
@@ -88,18 +97,30 @@ photoFrame.addEventListener("touchmove", function (e) {
     e.preventDefault();
 
     if (e.touches.length === 2) {
-        // два пальца: приближение
-        scale = Math.max(1, Math.min(5, startScale * distance(e.touches) / startDist));
-    } else if (e.touches.length === 1 && scale > 1) {
-        // один палец: двигаем приближенное фото
-        x = startTx + (e.touches[0].clientX - startX);
-        y = startTy + (e.touches[0].clientY - startY);
+        // два пальца: приближение и отдаление
+        scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, startScale * distance(e.touches) / startDist));
+    } else if (e.touches.length === 1) {
+        // один палец: двигаем фото
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
+        x = startTx + dx;
+        y = startTy + dy;
     }
     applyZoom();
 }, { passive: false });
 
 photoFrame.addEventListener("touchend", function (e) {
-    if (scale < 1.05) resetZoom();
+    // двойное касание возвращает фото к исходному виду
+    if (e.touches.length === 0 && !moved) {
+        const now = Date.now();
+        if (now - lastTap < 300) {
+            resetZoom();
+            lastTap = 0;
+        } else {
+            lastTap = now;
+        }
+    }
 
     // после отпускания одного из двух пальцев продолжаем с оставшимся
     if (e.touches.length === 1) {
@@ -109,6 +130,3 @@ photoFrame.addEventListener("touchend", function (e) {
         startTy = y;
     }
 });
-
-// Двойной тап возвращает фото к обычному размеру
-photoFrame.addEventListener("dblclick", resetZoom);
