@@ -143,14 +143,14 @@ button {
 }
 
 .icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
 }
 
 .icon.big {
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
 }
 
 /* Нижний блок с кнопками (размеры как раньше) */
